@@ -1,18 +1,18 @@
-import React from 'react';
-import CartWidget from './CartWidget';
+import { Link, NavLink } from "react-router-dom";
+import { categories } from "../data/products";
 
-const NavBar = () => {
+export default function NavBar() {
     return (
-        <nav className="navBar">
-            <div className="logo">My Store</div>
-            <div className="navLinks">
-                <a href="#">Inicio</a>
-                <a href="#">Productos</a>
-                <a href="#">Contacto</a>
+        <header className="navbar">
+            <div className="container navbar-inner">
+                <Link to="/" className="brand">Agencia</Link>
+                <nav className="nav">
+                    <NavLink to="/" end>Inicio</NavLink>
+                    {categories.filter(c => c.id !== "all").map(c => (
+                        <NavLink key={c.id} to={`/category/${c.id}`}>{c.name}</NavLink>
+                    ))}
+                </nav>
             </div>
-            <CartWidget />
-        </nav>
+        </header>
     );
-};
-
-export default NavBar;
+}
