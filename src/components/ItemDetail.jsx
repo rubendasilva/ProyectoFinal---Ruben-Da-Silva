@@ -1,33 +1,26 @@
-import ItemCount from "./ItemCount";
+import ItemCount from "./ItemCount.jsx";
+import { useCart } from "../context/CartContext.jsx";
 
 export default function ItemDetail({ item }) {
-    if (!item) return null;
+    const { addItem } = useCart();
+    const { id, title, description, price, stock, thumbnail } = item;
 
-    const handleImgError = (e) => {
-        e.currentTarget.src = "/img/placeholder.png";
-    };
+    function srcFor(thumbnail) {
+        if (!thumbnail) return "";
+        return thumbnail.startsWith("http") ? thumbnail : process.env.PUBLIC_URL + thumbnail;
+    }
+
+    function handleAdd(qty) {
+        addItem(item, qty);
+    }
 
     return (
-        <section className="container main detail">
-            <div className="detail-media">
-                <img
-                    src={item.img}
-                    alt={item.title}
-                    onError={handleImgError}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-            </div>
-            <div className="detail-body">
-                <span className="badge">Stock: {item.stock}</span>
-                <h2 style={{ margin: 0 }}>{item.title}</h2>
-                <p>{item.description}</p>
-                <p><b>Precio:</b> ${item.price}</p>
-                <ItemCount
-                    stock={item.stock}
-                    initial={1}
-                    onAdd={(q) => console.log("Agregar", item.id, q)}
-                />
-            </div>
+        <section className="item-detail">
+            <h2 className="detail-title">{title}</h2>
+            <img src={srcFor(thumbnail)} alt={title} className="detail-image" />
+            <p className="detail-desc">{description}</p>
+            <p className="detail-price">${price}</p>
+            <ItemCount stock={stock} initial={1} onAdd={handleAdd} />
         </section>
     );
 }

@@ -1,11 +1,10 @@
-import React from 'react';
+import { useCart } from "../context/CartContext.jsx";
 
-const CartWidget = () => {
+export default function CartWidget() {
+    const { totalQty } = useCart();
     return (
-        <div>
-            🛒 <span>3</span>
-        </div>
+        <span className="cart-widget">
+            🛒{totalQty > 0 && <span className="cart-count">{totalQty}</span>}
+        </span>
     );
-};
-
-export default CartWidget;
+}

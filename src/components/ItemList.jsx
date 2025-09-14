@@ -1,11 +1,11 @@
-import ItemCard from "./ItemCard";
+import Item from "./Item.jsx";
 
 export default function ItemList({ items }) {
     return (
-        <section className="grid">
-            {items.map((it) => (
-                <ItemCard key={it.id} item={it} />
+        <div className="item-list">
+            {items.map((p) => (
+                <Item key={p.id} {...p} />
             ))}
-        </section>
+        </div>
     );
 }
